@@ -1,0 +1,35 @@
+{
+  "rpcProject": {
+    "host": "192.168.6.4",
+    "port": "10000"
+  },
+  "apiProject": {
+    "host": "192.168.6.4",
+    "port": "10001"
+  },
+  "mysql": {
+    "host": "127.0.0.1",
+    "port": "3306",
+    "DB": "gold_finger",
+    "userName": "root",
+    "PWD": "yuan123hao",
+    "maxConn": 2,
+    "maxOpen": 200
+  },
+  "redis": {
+    "addr": ["127.0.0.1:6379"],
+    "PWD": "",
+    "sessionDB": 0,
+    "cacheDB": 1,
+    "masterName": "",
+    "poolSize": 5
+  },
+  "rpcLog": {
+    "level": "debug",
+    "path": "/user/rpc/root.log"
+  },
+  "apiLog": {
+    "level": "debug",
+    "path": "/user/api/root.log"
+  }
+}

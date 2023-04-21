@@ -1,0 +1,13 @@
+// protoc --go_out=. --go-grpc_out=require_unimplemented_servers=false:. ./common/user/rpc/proto/*.proto
+syntax = "proto3";
+
+option go_package = "common/user/rpc/proto;authPB";
+
+package user;
+
+// 登陆传入参数
+message loginReq{
+  string name = 1;
+  string password = 2;
+  string verificationCode = 3;
+}

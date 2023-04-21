@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+option go_package = "Goldfinger/public/proto;proto";
+
+package proto;
+
+// 定义bool类型的查询枚举
+enum BoolSelectEnum {
+  TRUE = 0;
+  FALSE = 1;
+  ALL = 2;
+}

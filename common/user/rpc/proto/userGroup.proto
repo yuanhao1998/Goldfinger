@@ -1,0 +1,132 @@
+// protoc --go_out=. --go-grpc_out=require_unimplemented_servers=false:. ./common/user/rpc/proto/*.proto
+syntax = "proto3";
+
+option go_package = "common/user/rpc/proto;userGroupPB";
+
+import "public/proto/base.proto";
+
+package user;
+
+// 创建用户组传入参数
+message createReq {
+
+  // 用户组名称
+  string name = 1;
+  // 用户组父级ID，为0代表顶级组
+  int64 parentId = 2;
+}
+
+// 创建用户组返回参数
+message createResp {
+
+  // 新创建的用户组ID
+  int64 id = 1;
+}
+
+// 查询用户组详情传入参数
+message retrieveReq {
+
+  // 用户组ID
+  int64 id = 1;
+}
+
+// 查询用户组详情返回参数
+message retrieveResp {
+
+  // 用户组ID
+  int64 id = 1;
+  // 用户组名称
+  string name = 2;
+  // 用户组父级ID
+  int64 parentId = 3;
+  // 是否管理员
+  bool isAdmin = 4;
+  // 备注
+  string desc = 5;
+  // 创建用户ID
+  int64 createUser = 6;
+  // 更新用户ID
+  int64 updateUser = 7;
+  // 创建用户组ID
+  int64 createGroup = 8;
+  // 更新用户组ID
+  int64 updateGroup = 9;
+  // 创建时间
+  int64 createAt = 10;
+  // 更新时间
+  int64 updateAt = 11;
+}
+
+// 更新用户组传入参数
+message updateReq {
+
+    retrieveResp userGroup = 1;
+}
+
+// 更新用户组返回参数
+message updateResp {
+
+  // 用户组ID
+  int64 id = 1;
+}
+
+// 删除用户组传入参数
+message deleteReq {
+
+  // 用户组ID
+  int64 id = 1;
+}
+
+// 删除用户组返回参数
+message deleteResp {
+
+  // 用户组ID
+  int64 id = 1;
+}
+
+// 查询用户组参数
+message queryReq {
+
+  // 多个用户组ID
+  repeated int64 ids = 1;
+  // 用户组名称
+  string name = 2;
+  // 父组ID
+  repeated int64 parentId = 3;
+  // 是否管理员
+  proto.BoolSelectEnum isAdmin = 4;
+  // 创建用户ID（查询此用户创建的所有用户组）
+  int64 createUser = 5;
+  // 更新用户ID（查询此用户更新过的用户组）
+  int64 updateUser = 6;
+  // 创建用户组ID（查询此用户组创建的所有用户组）
+  int64 createGroup = 7;
+  // 更新用户组ID（查询此用户组更新的所有用户组）
+  int64 updateGroup = 8;
+  // 创建时间
+  repeated int64 createAt = 9;
+  // 更新时间
+  repeated int64 updateAt = 10;
+}
+
+// 查询用户组返回参数
+message queryResp {
+
+  // 多条用户详细信息
+  repeated retrieveResp userGroup = 1;
+}
+
+// 用户组服务
+service UserGroup {
+
+  // 创建用户组
+  rpc create(createReq) returns(createResp);
+  // 更新用户组
+  rpc update(updateReq) returns(updateResp);
+  // 删除用户组
+  rpc delete(deleteReq) returns(deleteResp);
+  // 查询用户组
+  rpc query(queryReq) returns(queryResp);
+  // 查询用户组详情
+  rpc retrieve(retrieveReq) returns(retrieveResp);
+}
