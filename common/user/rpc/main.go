@@ -26,8 +26,6 @@ func main() {
 	model.CreateTable(dbConn)   // 自动建表
 	userGlobals.DBConn = dbConn // 全局数据库连接
 
-	sessionConn := userConfig.InitCache(userGlobals.RunConf, userGlobals.RunConf.Redis.SessionDB)
-	userGlobals.SessionConn = sessionConn // 用户状态
 	cacheConn := userConfig.InitCache(userGlobals.RunConf, userGlobals.RunConf.Redis.CacheDB)
 	userGlobals.CacheConn = cacheConn // 全局缓存连接
 
@@ -40,7 +38,7 @@ func main() {
 		panic("监听端口失败:" + err.Error())
 	}
 
-	globals.Logger.Error("启动User服务成功，监听RPC端口：", addr)
+	globals.Logger.Info("启动User服务成功，监听RPC端口：", addr)
 
 	err = grpcServer.Serve(listen)
 	if err != nil {

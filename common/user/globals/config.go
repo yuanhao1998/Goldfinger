@@ -54,4 +54,5 @@ type Conf struct {
 	Redis      redis      `json:"redis"`
 	RPCLog     rpcLog     `json:"rpcLog"`
 	APILog     apiLog     `json:"apiLog"`
+	SecretKey  string     `json:"secretKey"`
 }

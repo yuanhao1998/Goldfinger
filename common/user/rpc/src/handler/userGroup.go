@@ -5,39 +5,69 @@
 package handler
 
 import (
-	proto "Goldfinger/public/proto"
+	"Goldfinger/errors"
 	"context"
 	"reflect"
 	"strings"
 
 	"Goldfinger/common/user/rpc/proto"
 	"Goldfinger/common/user/rpc/src/model"
+	"Goldfinger/globals"
 	"Goldfinger/public/db"
+	proto "Goldfinger/public/proto"
 	"Goldfinger/utils/convert"
 )
 
 type UserGroupServer struct {
-	DataConn db.StringCache[model.UMUserGroup]
+	DataConn db.StringCache
 }
 
-func (u *UserGroupServer) Update(ctx context.Context, req *userGroupPB.UpdateReq) (*userGroupPB.UpdateResp, error) {
+func (u *UserGroupServer) Create(ctx context.Context, req *userPB.CreateUserGroupReq) (*userPB.CreateUserGroupResp, error) {
+
+	if u.DataConn.DbConn.Where("parent_id = ? AND is_del = 0 AND name = ?", req.ParentId, req.Name).RowsAffected != 0 {
+		return nil, errors.NewNameRepeatError("用户组名称重复")
+	}
+
+	userGroup := model.UMUserGroup{Name: req.Name, ParentId: req.ParentId}
+	id, err := u.DataConn.CreateString(ctx, &userGroup, userGroupCacheKey)
+	if err != nil {
+		return nil, err
+	}
+
+	globals.Logger.Info("用户组新增", id)
+	globals.Logger.Debug("用户组新增详情", req.String())
+
+	return &userPB.CreateUserGroupResp{Id: id}, nil
+}
+
+func (u *UserGroupServer) Update(ctx context.Context, req *userPB.UpdateUserGroupReq) (*userPB.UpdateUserGroupResp, error) {
+
 	userGroup := model.UMUserGroup{Id: req.UserGroup.Id, Name: req.UserGroup.Name, ParentId: req.UserGroup.ParentId}
-	id, err := u.DataConn.UpdateString(ctx, &userGroup, "UMUserGroup")
+	id, err := u.DataConn.UpdateString(ctx, &userGroup, userGroupCacheKey)
 	if err != nil {
 		return nil, err
 	}
-	return &userGroupPB.UpdateResp{Id: id}, nil
+
+	globals.Logger.Info("用户组更新", req.UserGroup.Id)
+	globals.Logger.Debug("用户组更新详细信息：", req.UserGroup.String())
+
+	return &userPB.UpdateUserGroupResp{Id: id}, nil
 }
 
-func (u *UserGroupServer) Delete(ctx context.Context, req *userGroupPB.DeleteReq) (*userGroupPB.DeleteResp, error) {
-	id, err := u.DataConn.DeleteString(ctx, "UMUserGroup", req.Id)
+func (u *UserGroupServer) Delete(ctx context.Context, req *userPB.DeleteUserGroupReq) (*userPB.DeleteUserGroupResp, error) {
+
+	id, err := u.DataConn.DeleteString(ctx, userGroupCacheKey, model.UMUserGroup{Id: req.Id})
 	if err != nil {
 		return nil, err
 	}
-	return &userGroupPB.DeleteResp{Id: id}, nil
+
+	globals.Logger.Info("用户组删除", req.Id)
+
+	return &userPB.DeleteUserGroupResp{Id: id}, nil
 }
 
-func (u *UserGroupServer) Query(ctx context.Context, req *userGroupPB.QueryReq) (*userGroupPB.QueryResp, error) {
+func (u *UserGroupServer) Query(_ context.Context, req *userPB.QueryUserGroupReq) (*userPB.QueryUserGroupResp, error) {
+
 	query := map[string]any{
 		"id IN ?":                   req.Ids,
 		"name Like ?":               "%" + strings.ToLower(req.Name) + "%",
@@ -64,31 +94,25 @@ func (u *UserGroupServer) Query(ctx context.Context, req *userGroupPB.QueryReq) 
 		}
 	}
 
-	userGroups := userGroupPB.QueryResp{}
+	userGroups := userPB.QueryUserGroupResp{}
 	u.DataConn.DbConn.Where(strings.Join(keySince, "and"), valueSince...).Find(&userGroups)
 	return &userGroups, nil
 
 }
 
-func (u *UserGroupServer) Create(ctx context.Context, req *userGroupPB.CreateReq) (*userGroupPB.CreateResp, error) {
-	userGroup := model.UMUserGroup{Name: req.Name, ParentId: req.ParentId}
-	id, err := u.DataConn.CreateString(ctx, &userGroup, "UMUserGroup")
-	if err != nil {
-		return nil, err
-	}
-	return &userGroupPB.CreateResp{Id: id}, nil
-}
+func (u *UserGroupServer) Retrieve(ctx context.Context, req *userPB.RetrieveUserGroupReq) (*userPB.RetrieveUserGroupResp, error) {
 
-func (u *UserGroupServer) Retrieve(ctx context.Context, req *userGroupPB.RetrieveReq) (*userGroupPB.RetrieveResp, error) {
 	userGroup := model.UMUserGroup{}
-	err := u.DataConn.RetrieveString(ctx, &userGroup, "UMUserGroup", req.Id)
+	err := u.DataConn.RetrieveString(ctx, &userGroup, userGroupCacheKey, req.Id)
 	if err != nil {
 		return nil, err
 	}
-	result := userGroupPB.RetrieveResp{}
-	err = convert.JsonConvert(userGroup, &result)
+
+	result := userPB.RetrieveUserGroupResp{}
+	err = convert.StructToStructUseJson(userGroup, &result)
 	if err != nil {
 		return nil, err
 	}
+
 	return &result, nil
 }

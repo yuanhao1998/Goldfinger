@@ -31,5 +31,6 @@
   "apiLog": {
     "level": "debug",
     "path": "/user/api/root.log"
-  }
+  },
+  "secretKey": "Ix72aBcn1bsoa1/USSE9MBi+Cx9BdQlMCUh2W0rP5aA="
 }

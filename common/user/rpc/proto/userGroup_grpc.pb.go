@@ -6,7 +6,7 @@
 // - protoc             v3.21.12
 // source: common/user/rpc/proto/userGroup.proto
 
-package userGroupPB
+package userPB
 
 import (
 	context "context"
@@ -32,16 +32,11 @@ const (
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type UserGroupClient interface {
-	// 创建用户组
-	Create(ctx context.Context, in *CreateReq, opts ...grpc.CallOption) (*CreateResp, error)
-	// 更新用户组
-	Update(ctx context.Context, in *UpdateReq, opts ...grpc.CallOption) (*UpdateResp, error)
-	// 删除用户组
-	Delete(ctx context.Context, in *DeleteReq, opts ...grpc.CallOption) (*DeleteResp, error)
-	// 查询用户组
-	Query(ctx context.Context, in *QueryReq, opts ...grpc.CallOption) (*QueryResp, error)
-	// 查询用户组详情
-	Retrieve(ctx context.Context, in *RetrieveReq, opts ...grpc.CallOption) (*RetrieveResp, error)
+	Create(ctx context.Context, in *CreateUserGroupReq, opts ...grpc.CallOption) (*CreateUserGroupResp, error)
+	Update(ctx context.Context, in *UpdateUserGroupReq, opts ...grpc.CallOption) (*UpdateUserGroupResp, error)
+	Delete(ctx context.Context, in *DeleteUserGroupReq, opts ...grpc.CallOption) (*DeleteUserGroupResp, error)
+	Query(ctx context.Context, in *QueryUserGroupReq, opts ...grpc.CallOption) (*QueryUserGroupResp, error)
+	Retrieve(ctx context.Context, in *RetrieveUserGroupReq, opts ...grpc.CallOption) (*RetrieveUserGroupResp, error)
 }
 
 type userGroupClient struct {
@@ -52,8 +47,8 @@ func NewUserGroupClient(cc grpc.ClientConnInterface) UserGroupClient {
 	return &userGroupClient{cc}
 }
 
-func (c *userGroupClient) Create(ctx context.Context, in *CreateReq, opts ...grpc.CallOption) (*CreateResp, error) {
-	out := new(CreateResp)
+func (c *userGroupClient) Create(ctx context.Context, in *CreateUserGroupReq, opts ...grpc.CallOption) (*CreateUserGroupResp, error) {
+	out := new(CreateUserGroupResp)
 	err := c.cc.Invoke(ctx, UserGroup_Create_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -61,8 +56,8 @@ func (c *userGroupClient) Create(ctx context.Context, in *CreateReq, opts ...grp
 	return out, nil
 }
 
-func (c *userGroupClient) Update(ctx context.Context, in *UpdateReq, opts ...grpc.CallOption) (*UpdateResp, error) {
-	out := new(UpdateResp)
+func (c *userGroupClient) Update(ctx context.Context, in *UpdateUserGroupReq, opts ...grpc.CallOption) (*UpdateUserGroupResp, error) {
+	out := new(UpdateUserGroupResp)
 	err := c.cc.Invoke(ctx, UserGroup_Update_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -70,8 +65,8 @@ func (c *userGroupClient) Update(ctx context.Context, in *UpdateReq, opts ...grp
 	return out, nil
 }
 
-func (c *userGroupClient) Delete(ctx context.Context, in *DeleteReq, opts ...grpc.CallOption) (*DeleteResp, error) {
-	out := new(DeleteResp)
+func (c *userGroupClient) Delete(ctx context.Context, in *DeleteUserGroupReq, opts ...grpc.CallOption) (*DeleteUserGroupResp, error) {
+	out := new(DeleteUserGroupResp)
 	err := c.cc.Invoke(ctx, UserGroup_Delete_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -79,8 +74,8 @@ func (c *userGroupClient) Delete(ctx context.Context, in *DeleteReq, opts ...grp
 	return out, nil
 }
 
-func (c *userGroupClient) Query(ctx context.Context, in *QueryReq, opts ...grpc.CallOption) (*QueryResp, error) {
-	out := new(QueryResp)
+func (c *userGroupClient) Query(ctx context.Context, in *QueryUserGroupReq, opts ...grpc.CallOption) (*QueryUserGroupResp, error) {
+	out := new(QueryUserGroupResp)
 	err := c.cc.Invoke(ctx, UserGroup_Query_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -88,8 +83,8 @@ func (c *userGroupClient) Query(ctx context.Context, in *QueryReq, opts ...grpc.
 	return out, nil
 }
 
-func (c *userGroupClient) Retrieve(ctx context.Context, in *RetrieveReq, opts ...grpc.CallOption) (*RetrieveResp, error) {
-	out := new(RetrieveResp)
+func (c *userGroupClient) Retrieve(ctx context.Context, in *RetrieveUserGroupReq, opts ...grpc.CallOption) (*RetrieveUserGroupResp, error) {
+	out := new(RetrieveUserGroupResp)
 	err := c.cc.Invoke(ctx, UserGroup_Retrieve_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -101,35 +96,30 @@ func (c *userGroupClient) Retrieve(ctx context.Context, in *RetrieveReq, opts ..
 // All implementations should embed UnimplementedUserGroupServer
 // for forward compatibility
 type UserGroupServer interface {
-	// 创建用户组
-	Create(context.Context, *CreateReq) (*CreateResp, error)
-	// 更新用户组
-	Update(context.Context, *UpdateReq) (*UpdateResp, error)
-	// 删除用户组
-	Delete(context.Context, *DeleteReq) (*DeleteResp, error)
-	// 查询用户组
-	Query(context.Context, *QueryReq) (*QueryResp, error)
-	// 查询用户组详情
-	Retrieve(context.Context, *RetrieveReq) (*RetrieveResp, error)
+	Create(context.Context, *CreateUserGroupReq) (*CreateUserGroupResp, error)
+	Update(context.Context, *UpdateUserGroupReq) (*UpdateUserGroupResp, error)
+	Delete(context.Context, *DeleteUserGroupReq) (*DeleteUserGroupResp, error)
+	Query(context.Context, *QueryUserGroupReq) (*QueryUserGroupResp, error)
+	Retrieve(context.Context, *RetrieveUserGroupReq) (*RetrieveUserGroupResp, error)
 }
 
 // UnimplementedUserGroupServer should be embedded to have forward compatible implementations.
 type UnimplementedUserGroupServer struct {
 }
 
-func (UnimplementedUserGroupServer) Create(context.Context, *CreateReq) (*CreateResp, error) {
+func (UnimplementedUserGroupServer) Create(context.Context, *CreateUserGroupReq) (*CreateUserGroupResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Create not implemented")
 }
-func (UnimplementedUserGroupServer) Update(context.Context, *UpdateReq) (*UpdateResp, error) {
+func (UnimplementedUserGroupServer) Update(context.Context, *UpdateUserGroupReq) (*UpdateUserGroupResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Update not implemented")
 }
-func (UnimplementedUserGroupServer) Delete(context.Context, *DeleteReq) (*DeleteResp, error) {
+func (UnimplementedUserGroupServer) Delete(context.Context, *DeleteUserGroupReq) (*DeleteUserGroupResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Delete not implemented")
 }
-func (UnimplementedUserGroupServer) Query(context.Context, *QueryReq) (*QueryResp, error) {
+func (UnimplementedUserGroupServer) Query(context.Context, *QueryUserGroupReq) (*QueryUserGroupResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Query not implemented")
 }
-func (UnimplementedUserGroupServer) Retrieve(context.Context, *RetrieveReq) (*RetrieveResp, error) {
+func (UnimplementedUserGroupServer) Retrieve(context.Context, *RetrieveUserGroupReq) (*RetrieveUserGroupResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Retrieve not implemented")
 }
 
@@ -145,7 +135,7 @@ func RegisterUserGroupServer(s grpc.ServiceRegistrar, srv UserGroupServer) {
 }
 
 func _UserGroup_Create_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(CreateReq)
+	in := new(CreateUserGroupReq)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -157,13 +147,13 @@ func _UserGroup_Create_Handler(srv interface{}, ctx context.Context, dec func(in
 		FullMethod: UserGroup_Create_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserGroupServer).Create(ctx, req.(*CreateReq))
+		return srv.(UserGroupServer).Create(ctx, req.(*CreateUserGroupReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
 func _UserGroup_Update_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(UpdateReq)
+	in := new(UpdateUserGroupReq)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -175,13 +165,13 @@ func _UserGroup_Update_Handler(srv interface{}, ctx context.Context, dec func(in
 		FullMethod: UserGroup_Update_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserGroupServer).Update(ctx, req.(*UpdateReq))
+		return srv.(UserGroupServer).Update(ctx, req.(*UpdateUserGroupReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
 func _UserGroup_Delete_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(DeleteReq)
+	in := new(DeleteUserGroupReq)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -193,13 +183,13 @@ func _UserGroup_Delete_Handler(srv interface{}, ctx context.Context, dec func(in
 		FullMethod: UserGroup_Delete_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserGroupServer).Delete(ctx, req.(*DeleteReq))
+		return srv.(UserGroupServer).Delete(ctx, req.(*DeleteUserGroupReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
 func _UserGroup_Query_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(QueryReq)
+	in := new(QueryUserGroupReq)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -211,13 +201,13 @@ func _UserGroup_Query_Handler(srv interface{}, ctx context.Context, dec func(int
 		FullMethod: UserGroup_Query_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserGroupServer).Query(ctx, req.(*QueryReq))
+		return srv.(UserGroupServer).Query(ctx, req.(*QueryUserGroupReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
 func _UserGroup_Retrieve_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(RetrieveReq)
+	in := new(RetrieveUserGroupReq)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -229,7 +219,7 @@ func _UserGroup_Retrieve_Handler(srv interface{}, ctx context.Context, dec func(
 		FullMethod: UserGroup_Retrieve_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserGroupServer).Retrieve(ctx, req.(*RetrieveReq))
+		return srv.(UserGroupServer).Retrieve(ctx, req.(*RetrieveUserGroupReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }

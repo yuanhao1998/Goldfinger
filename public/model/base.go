@@ -7,5 +7,5 @@ package model
 import "Goldfinger/common/user/rpc/src/model"
 
 type BaseModel interface {
-	model.UMUserGroup
+	model.UMUserGroup | model.UMUser
 }

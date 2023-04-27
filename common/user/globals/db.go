@@ -11,4 +11,3 @@ import (
 
 var DBConn *gorm.DB
 var CacheConn cache.UniversalClient
-var SessionConn cache.UniversalClient

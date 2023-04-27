@@ -53,7 +53,7 @@ type CacheError struct {
 }
 
 func (e CacheError) ErrorMap() map[string]any {
-	return e.GenerateErrorMap("缓存错误", DB)
+	return e.GenerateErrorMap("缓存错误", Cache)
 }
 
 func NewCacheError(msg string) *CacheError {
@@ -123,4 +123,30 @@ func (e PWDEncodeError) ErrorMap() map[string]any {
 
 func NewPWDEncodeError(msg string) *PWDEncodeError {
 	return &PWDEncodeError{BaseError{Msg: msg}}
+}
+
+// CaptchaError 验证码错误
+type CaptchaError struct {
+	BaseError
+}
+
+func (e CaptchaError) ErrorMap() map[string]any {
+	return e.GenerateErrorMap("验证码错误", Captcha)
+}
+
+func NewCaptchaError(msg string) *CaptchaError {
+	return &CaptchaError{BaseError{Msg: msg}}
+}
+
+// LoginError 登陆错误
+type LoginError struct {
+	BaseError
+}
+
+func (e LoginError) ErrorMap() map[string]any {
+	return e.GenerateErrorMap("登陆错误", Login)
+}
+
+func NewLoginError(msg string) *LoginError {
+	return &LoginError{BaseError{Msg: msg}}
 }

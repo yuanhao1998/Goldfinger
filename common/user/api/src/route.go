@@ -20,6 +20,14 @@ func Route(app *gin.Engine) {
 		v1User.POST("/userGroup", view.CreateUserGroupView)
 		v1User.PUT("/userGroup", view.UpdateGroupView)
 		v1User.DELETE("/userGroup/:id", view.DeleteGroupView)
+
+		v1User.POST("/user", view.CreateUserView)
+	}
+
+	v1Login := v1.Group("/login")
+	{
+		v1Login.GET("/captcha", view.CaptchaView)
+		v1Login.POST("/login", view.LoginView)
 	}
 
 }

@@ -10,7 +10,7 @@ import (
 	"Goldfinger/errors"
 )
 
-func JsonConvert(from, to any) error {
+func StructToStructUseJson(from, to any) error {
 
 	fromJson, err := json.Marshal(from)
 	if err != nil {

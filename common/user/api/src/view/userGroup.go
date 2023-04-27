@@ -5,12 +5,11 @@
 package view
 
 import (
+	"Goldfinger/config"
 	"context"
+	"github.com/gin-gonic/gin"
 	"net/http"
 	"strconv"
-	"time"
-
-	"github.com/gin-gonic/gin"
 
 	"Goldfinger/common/user/api/src/handler"
 	"Goldfinger/common/user/api/src/model"
@@ -27,8 +26,8 @@ func CreateUserGroupView(c *gin.Context) {
 		return
 	}
 
-	var resChan, errChane = make(chan *userGroupPB.CreateResp), make(chan error)
-	ctx, cancel := context.WithTimeout(c, 5*time.Second)
+	var resChan, errChane = make(chan *userPB.CreateUserGroupResp), make(chan error)
+	ctx, cancel := context.WithTimeout(c, config.APITimeOut)
 	defer cancel()
 
 	go handler.CreateUserGroupHandler(query, resChan, errChane)
@@ -59,8 +58,8 @@ func RetrieveGroupView(c *gin.Context) {
 		return
 	}
 
-	var resChan, errChane = make(chan *userGroupPB.RetrieveResp), make(chan error)
-	ctx, cancel := context.WithTimeout(c, 5*time.Second)
+	var resChan, errChane = make(chan *userPB.RetrieveUserGroupResp), make(chan error)
+	ctx, cancel := context.WithTimeout(c, config.APITimeOut)
 	defer cancel()
 
 	go handler.RetrieveUserGroupHandler(userGroupId, resChan, errChane)
@@ -92,8 +91,8 @@ func UpdateGroupView(c *gin.Context) {
 		return
 	}
 
-	var resChan, errChane = make(chan *userGroupPB.UpdateResp), make(chan error)
-	ctx, cancel := context.WithTimeout(c, 5*time.Second)
+	var resChan, errChane = make(chan *userPB.UpdateUserGroupResp), make(chan error)
+	ctx, cancel := context.WithTimeout(c, config.APITimeOut)
 	defer cancel()
 
 	go handler.UpdateUserGroupHandler(query, resChan, errChane)
@@ -123,8 +122,8 @@ func DeleteGroupView(c *gin.Context) {
 		return
 	}
 
-	var resChan, errChane = make(chan *userGroupPB.DeleteResp), make(chan error)
-	ctx, cancel := context.WithTimeout(c, 5*time.Second)
+	var resChan, errChane = make(chan *userPB.DeleteUserGroupResp), make(chan error)
+	ctx, cancel := context.WithTimeout(c, config.APITimeOut)
 	defer cancel()
 
 	go handler.DeleteUserGroupHandler(userGroupId, resChan, errChane)

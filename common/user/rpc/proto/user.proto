@@ -1,0 +1,26 @@
+// protoc --go_out=. --go-grpc_out=require_unimplemented_servers=false:. ./common/user/rpc/proto/*.proto
+syntax = "proto3";
+
+option go_package = "common/user/rpc/proto;userPB";
+
+package user;
+
+// 创建用户传入参数
+message CreateUserReq{
+  string loginName = 1;       // 登陆名称
+  string showName = 2;        // 用户名称
+  string password = 3;        // 密码
+  string mobile = 4;          // 手机号
+  string  desc = 5;           // 备注
+  int64 groupId = 6;          // 所属用户组
+}
+
+// 创建用户返回参数
+message CreateUserResp{
+  int64 id = 1;  // 用户ID
+}
+
+// 登陆服务
+service User{
+  rpc create(CreateUserReq) returns(CreateUserResp);  // 创建用户
+}

@@ -10,10 +10,10 @@ import (
 	"Goldfinger/common/user/globals"
 	"Goldfinger/common/user/rpc/proto"
 	"Goldfinger/common/user/rpc/src/handler"
-	"Goldfinger/common/user/rpc/src/model"
 	"Goldfinger/public/db"
 )
 
 func Register(server *grpc.Server) {
-	userGroupPB.RegisterUserGroupServer(server, &handler.UserGroupServer{DataConn: db.StringCache[model.UMUserGroup]{DbConn: globals.DBConn, CacheConn: globals.CacheConn}})
+	userPB.RegisterUserGroupServer(server, &handler.UserGroupServer{DataConn: db.StringCache{DbConn: globals.DBConn, CacheConn: globals.CacheConn}})
+	userPB.RegisterUserServer(server, &handler.UserServer{DataConn: db.StringCache{DbConn: globals.DBConn, CacheConn: globals.CacheConn}})
 }

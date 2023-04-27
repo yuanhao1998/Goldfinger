@@ -125,7 +125,7 @@ func (c *HashCache[T]) DeleteHash(ctx context.Context, cacheKey string, id int64
 
 	tx := c.DbConn.Begin()
 
-	res := tx.First(&T{}, id).Update("is_del", 1) // 更新数据库
+	res := tx.First(ctx, id).Update("is_del", 1) // 更新数据库
 	if res.Error != nil {
 		tx.Rollback()
 		return res.Error

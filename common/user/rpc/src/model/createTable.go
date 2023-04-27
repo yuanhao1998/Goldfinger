@@ -9,7 +9,7 @@ import (
 )
 
 func CreateTable(conn *gorm.DB) {
-	err := conn.AutoMigrate(&UMUserGroup{})
+	err := conn.AutoMigrate(&UMUserGroup{}, &UMUser{})
 	if err != nil {
 		panic("自动建表失败：" + err.Error())
 	}

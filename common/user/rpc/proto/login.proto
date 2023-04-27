@@ -1,0 +1,23 @@
+// protoc --go_out=. --go-grpc_out=require_unimplemented_servers=false:. ./common/user/rpc/proto/*.proto
+syntax = "proto3";
+
+option go_package = "common/user/rpc/proto;userPB";
+
+package user;
+
+// 登陆传入参数
+message loginReq{
+  string loginName = 1;  // 用户登陆名
+  string password = 2;  // 密码
+}
+
+message loginResp{
+  string showName = 1;  // 用户显示名称
+  int64 userId = 2; // 用户id
+  string token = 3; // jwt token
+}
+
+// 登陆服务
+service Login{
+  rpc login(loginReq) returns(loginResp);  // 登陆
+}
