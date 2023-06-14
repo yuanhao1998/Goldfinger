@@ -137,7 +137,7 @@ db:
 
 		// 如果此id已被删除，向缓存中写入一条空值
 		isDel := findRealData(st).FieldByName("IsDel")
-		if isDel.IsValid() || isDel.Bool() {
+		if isDel.IsValid() && isDel.Bool() {
 			c.CacheConn.Set(ctx, redisKey, "{}", exp)
 			return nil
 		}

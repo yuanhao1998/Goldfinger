@@ -9,33 +9,33 @@ package user;
 
 // 创建用户组传入参数
 message createUserGroupReq {
-  string name = 1;  // 用户组名称
-  int64 parentId = 2;  // 用户组父级ID，为0代表顶级组
+  string Name = 1;  // 用户组名称
+  int64 ParentId = 2;  // 用户组父级ID，为0代表顶级组
 }
 
 // 创建用户组返回参数
 message createUserGroupResp {
-  int64 id = 1;  // 新创建的用户组ID
+  int64 Id = 1;  // 新创建的用户组ID
 }
 
 // 查询用户组详情传入参数
 message retrieveUserGroupReq {
-  int64 id = 1;  // 用户组ID
+  int64 Id = 1;  // 用户组ID
 }
 
 // 查询用户组详情返回参数
 message retrieveUserGroupResp {
-  int64 id = 1;           // 用户组ID
-  string name = 2;        // 用户组名称
-  int64 parentId = 3;     // 用户组父级ID
-  bool isAdmin = 4;       // 是否管理员
-  string desc = 5;        // 备注
-  int64 createUser = 6;   // 创建用户ID
-  int64 updateUser = 7;   // 更新用户ID
-  int64 createGroup = 8;  // 创建用户组ID
-  int64 updateGroup = 9;  // 更新用户组ID
-  int64 createAt = 10;    // 创建时间
-  int64 updateAt = 11;    // 更新时间
+  int64 Id = 1;           // 用户组ID
+  string Name = 2;        // 用户组名称
+  int64 ParentId = 3;     // 用户组父级ID
+  bool IsAdmin = 4;       // 是否管理员
+  string Desc = 5;        // 备注
+  int64 CreateUser = 6;   // 创建用户ID
+  int64 UpdateUser = 7;   // 更新用户ID
+  int64 CreateGroup = 8;  // 创建用户组ID
+  int64 UpdateGroup = 9;  // 更新用户组ID
+  int64 CreateAt = 10;    // 创建时间
+  int64 UpdateAt = 11;    // 更新时间
 }
 
 // 更新用户组传入参数
@@ -45,36 +45,36 @@ message updateUserGroupReq {
 
 // 更新用户组返回参数
 message updateUserGroupResp {
-  int64 id = 1;  // 用户组ID
+  int64 Id = 1;  // 用户组ID
 }
 
 // 删除用户组传入参数
 message deleteUserGroupReq {
-  int64 id = 1;  // 用户组ID
+  int64 Id = 1;  // 用户组ID
 }
 
 // 删除用户组返回参数
 message deleteUserGroupResp {
-  int64 id = 1;  // 用户组ID
+  int64 Id = 1;  // 用户组ID
 }
 
 // 查询用户组参数
 message queryUserGroupReq {
-  repeated int64 ids = 1;            // 多个用户组ID
-  string name = 2;                   // 用户组名称
-  repeated int64 parentId = 3;       // 父组ID
-  proto.BoolSelectEnum isAdmin = 4;  // 是否管理员
-  int64 createUser = 5;              // 创建用户ID（查询此用户创建的所有用户组）
-  int64 updateUser = 6;              // 更新用户ID（查询此用户更新过的用户组）
-  int64 createGroup = 7;             // 创建用户组ID（查询此用户组创建的所有用户组）
-  int64 updateGroup = 8;             // 更新用户组ID（查询此用户组更新的所有用户组）
-  repeated int64 createAt = 9;       // 创建时间
-  repeated int64 updateAt = 10;      // 更新时间
+  repeated int64 Ids = 1;            // 多个用户组ID
+  string Name = 2;                   // 用户组名称
+  repeated int64 ParentId = 3;       // 父组ID
+  proto.BoolSelectEnum IsAdmin = 4;  // 是否管理员
+  int64 CreateUser = 5;              // 创建用户ID（查询此用户创建的所有用户组）
+  int64 UpdateUser = 6;              // 更新用户ID（查询此用户更新过的用户组）
+  int64 CreateGroup = 7;             // 创建用户组ID（查询此用户组创建的所有用户组）
+  int64 UpdateGroup = 8;             // 更新用户组ID（查询此用户组更新的所有用户组）
+  repeated int64 CreateAt = 9;       // 创建时间
+  repeated int64 UpdateAt = 10;      // 更新时间
 }
 
 // 查询用户组返回参数
 message queryUserGroupResp {
-  repeated retrieveUserGroupResp userGroup = 1;  // 多条用户详细信息
+  repeated retrieveUserGroupResp UserGroup = 1;  // 多条用户详细信息
 }
 
 // 用户组服务

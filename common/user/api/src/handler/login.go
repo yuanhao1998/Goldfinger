@@ -40,16 +40,16 @@ func CaptchaHandler() (string, string, error) {
 	return id, b64s, nil
 }
 
-func LoginHandler(query model.LoginQueryModel, rc chan<- *userPB.LoginResp, ok chan<- error) {
+func LoginHandler(ctx context.Context, query model.LoginQueryModel, rc chan<- any, ok chan<- error) {
 
 	if len(query.CaptchaId) == 0 || len(query.Captcha) == 0 || !captchaStore.Verify(query.CaptchaId, query.Captcha, true) {
 		ok <- errors.NewCaptchaError("验证码计算错误")
 		return
 	}
 
-	token, err := userPB.NewLoginClient(globals2.RPCClient).Login(context.Background(), &userPB.LoginReq{LoginName: query.LoginName, Password: query.Password})
+	token, err := userPB.NewLoginClient(globals2.RPCClient).Login(ctx, &userPB.LoginReq{LoginName: query.LoginName, Password: query.Password})
 	if err != nil {
-		ok <- errors.NewLoginError("登陆失败")
+		ok <- err
 		return
 	}
 

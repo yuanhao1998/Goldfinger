@@ -5,17 +5,16 @@
 package view
 
 import (
-	"Goldfinger/config"
-	"context"
-	"github.com/gin-gonic/gin"
 	"net/http"
 	"strconv"
 
+	"github.com/gin-gonic/gin"
+
 	"Goldfinger/common/user/api/src/handler"
 	"Goldfinger/common/user/api/src/model"
-	"Goldfinger/common/user/rpc/proto"
 	"Goldfinger/errors"
 	"Goldfinger/public/view/check"
+	"Goldfinger/public/view/response"
 )
 
 func CreateUserGroupView(c *gin.Context) {
@@ -26,25 +25,10 @@ func CreateUserGroupView(c *gin.Context) {
 		return
 	}
 
-	var resChan, errChane = make(chan *userPB.CreateUserGroupResp), make(chan error)
-	ctx, cancel := context.WithTimeout(c, config.APITimeOut)
-	defer cancel()
+	var resChan, errChane = make(chan any), make(chan error)
+	go handler.CreateUserGroupHandler(c, query, resChan, errChane)
+	response.DefaultResponse(c, resChan, errChane)
 
-	go handler.CreateUserGroupHandler(query, resChan, errChane)
-
-	for {
-		select {
-		case err := <-errChane:
-			c.JSON(http.StatusInternalServerError, errors.NewParamsError(err.Error()).ErrorMap())
-			return
-		case res := <-resChan:
-			c.JSON(http.StatusOK, gin.H{"userGroupId": res.Id})
-			return
-		case <-ctx.Done(): //超时
-			c.JSON(http.StatusInternalServerError, errors.NewTimeOutError("RPC请求超时").ErrorMap())
-			return
-		}
-	}
 }
 
 func RetrieveGroupView(c *gin.Context) {
@@ -58,26 +42,9 @@ func RetrieveGroupView(c *gin.Context) {
 		return
 	}
 
-	var resChan, errChane = make(chan *userPB.RetrieveUserGroupResp), make(chan error)
-	ctx, cancel := context.WithTimeout(c, config.APITimeOut)
-	defer cancel()
-
-	go handler.RetrieveUserGroupHandler(userGroupId, resChan, errChane)
-
-	for {
-		select {
-		case err := <-errChane:
-			c.JSON(http.StatusInternalServerError, errors.NewParamsError(err.Error()).ErrorMap())
-			return
-		case res := <-resChan:
-			c.JSON(http.StatusOK, gin.H{"name": res.Name, "parentId": res.ParentId, "desc": res.Desc, "isAdmin": res.IsAdmin})
-			return
-		case <-ctx.Done(): //超时
-			c.JSON(http.StatusInternalServerError, errors.NewTimeOutError("RPC请求超时").ErrorMap())
-			return
-		}
-	}
-
+	var resChan, errChane = make(chan any), make(chan error)
+	go handler.RetrieveUserGroupHandler(c, userGroupId, resChan, errChane)
+	response.DefaultResponse(c, resChan, errChane)
 }
 
 func UpdateGroupView(c *gin.Context) {
@@ -91,25 +58,10 @@ func UpdateGroupView(c *gin.Context) {
 		return
 	}
 
-	var resChan, errChane = make(chan *userPB.UpdateUserGroupResp), make(chan error)
-	ctx, cancel := context.WithTimeout(c, config.APITimeOut)
-	defer cancel()
+	var resChan, errChane = make(chan any), make(chan error)
+	go handler.UpdateUserGroupHandler(c, query, resChan, errChane)
+	response.DefaultResponse(c, resChan, errChane)
 
-	go handler.UpdateUserGroupHandler(query, resChan, errChane)
-
-	for {
-		select {
-		case err := <-errChane:
-			c.JSON(http.StatusInternalServerError, errors.NewParamsError(err.Error()).ErrorMap())
-			return
-		case res := <-resChan:
-			c.JSON(http.StatusOK, gin.H{"userGroupId": res.Id})
-			return
-		case <-ctx.Done(): //超时
-			c.JSON(http.StatusInternalServerError, errors.NewTimeOutError("RPC请求超时").ErrorMap())
-			return
-		}
-	}
 }
 
 func DeleteGroupView(c *gin.Context) {
@@ -122,23 +74,7 @@ func DeleteGroupView(c *gin.Context) {
 		return
 	}
 
-	var resChan, errChane = make(chan *userPB.DeleteUserGroupResp), make(chan error)
-	ctx, cancel := context.WithTimeout(c, config.APITimeOut)
-	defer cancel()
-
-	go handler.DeleteUserGroupHandler(userGroupId, resChan, errChane)
-
-	for {
-		select {
-		case err := <-errChane:
-			c.JSON(http.StatusInternalServerError, errors.NewParamsError(err.Error()).ErrorMap())
-			return
-		case res := <-resChan:
-			c.JSON(http.StatusOK, gin.H{"userGroupId": res.Id})
-			return
-		case <-ctx.Done(): //超时
-			c.JSON(http.StatusInternalServerError, errors.NewTimeOutError("RPC请求超时").ErrorMap())
-			return
-		}
-	}
+	var resChan, errChane = make(chan any), make(chan error)
+	go handler.DeleteUserGroupHandler(c, userGroupId, resChan, errChane)
+	response.DefaultResponse(c, resChan, errChane)
 }

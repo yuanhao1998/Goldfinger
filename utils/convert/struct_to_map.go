@@ -7,20 +7,26 @@ package convert
 import "reflect"
 
 func StructToMapUseRef(from any) map[string]any {
-	m := make(map[string]interface{})
-	v := reflect.ValueOf(from)
+	objValue := reflect.ValueOf(from)
+	objType := objValue.Type()
 
-	if v.Kind() == reflect.Ptr {
-		v = v.Elem()
+	if objType.Kind() == reflect.Ptr {
+		objValue = objValue.Elem()
+		objType = objType.Elem()
 	}
 
-	t := v.Type()
+	data := make(map[string]interface{})
 
-	for i := 0; i < t.NumField(); i++ {
-		field := t.Field(i)
-		value := v.Field(i).Interface()
-		m[field.Name] = value
+	for i := 0; i < objType.NumField(); i++ {
+		field := objType.Field(i)
+		fieldValue := objValue.Field(i)
+
+		if fieldValue.CanInterface() {
+			value := fieldValue.Interface()
+			data[field.Name] = value
+		}
+
 	}
 
-	return m
+	return data
 }

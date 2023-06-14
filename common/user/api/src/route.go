@@ -24,7 +24,7 @@ func Route(app *gin.Engine) {
 		v1User.POST("/user", view.CreateUserView)
 	}
 
-	v1Login := v1.Group("/login")
+	v1Login := v1User.Group("/login")
 	{
 		v1Login.GET("/captcha", view.CaptchaView)
 		v1Login.POST("/login", view.LoginView)

@@ -10,10 +10,11 @@ import (
 
 	"github.com/golang-jwt/jwt"
 
-	"Goldfinger/common/user/globals"
+	userGlobals "Goldfinger/common/user/globals"
 	"Goldfinger/common/user/rpc/proto"
 	"Goldfinger/common/user/rpc/src/model"
 	"Goldfinger/errors"
+	"Goldfinger/globals"
 	"Goldfinger/public/db"
 )
 
@@ -30,7 +31,7 @@ func GenerateJWTToken(user *model.UMUser) (string, error) { // 生成jwt token
 		"exp":       time.Now().Add(time.Hour * 24).Unix(),
 	})
 
-	tokenString, err := token.SignedString([]byte(globals.RunConf.SecretKey))
+	tokenString, err := token.SignedString([]byte(userGlobals.RunConf.SecretKey))
 	if err != nil {
 		return "", err
 	}
@@ -56,8 +57,12 @@ func (l LoginServer) Login(_ context.Context, req *userPB.LoginReq) (*userPB.Log
 
 	token, err := GenerateJWTToken(&user)
 	if err != nil {
+		globals.Logger.Error("用户登陆时，生成jwt token失败：", err.Error())
 		return nil, errors.NewLoginError("生成JWT Token失败")
 	}
+
+	user.LastLogin = time.Now().Unix()
+	l.DataConn.DbConn.Save(&user)
 
 	return &userPB.LoginResp{
 		ShowName: user.ShowName,
