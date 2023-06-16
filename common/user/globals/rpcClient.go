@@ -2,7 +2,7 @@
 // @Author   : yaho
 // @Remark   :
 
-package globals
+package userGlobals
 
 import "google.golang.org/grpc"
 

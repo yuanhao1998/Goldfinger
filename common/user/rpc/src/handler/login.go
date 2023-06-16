@@ -6,6 +6,7 @@ package handler
 
 import (
 	"context"
+	"strconv"
 	"time"
 
 	"github.com/golang-jwt/jwt"
@@ -41,7 +42,7 @@ func GenerateJWTToken(user *model.UMUser) (string, error) { // 生成jwt token
 func (l LoginServer) Login(_ context.Context, req *userPB.LoginReq) (*userPB.LoginResp, error) {
 
 	user := model.UMUser{}
-	if l.DataConn.DbConn.Where("login_name = ? and is_del = 0").First(&user).RowsAffected == 0 { // 用户不存在
+	if l.DataConn.DbConn.Where("login_name = ? and is_del = 0", req.LoginName).First(&user).RowsAffected == 0 { // 用户不存在
 		return nil, errors.NewLoginError("登录失败")
 	}
 
@@ -66,7 +67,7 @@ func (l LoginServer) Login(_ context.Context, req *userPB.LoginReq) (*userPB.Log
 
 	return &userPB.LoginResp{
 		ShowName: user.ShowName,
-		UserId:   user.Id,
+		UserId:   strconv.FormatInt(user.Id, 10),
 		Token:    token,
 	}, nil
 }

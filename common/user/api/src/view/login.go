@@ -37,6 +37,6 @@ func LoginView(c *gin.Context) {
 
 	var resChan, errChane = make(chan any), make(chan error)
 	go handler.LoginHandler(c, query, resChan, errChane)
-	response.DefaultResponse(c, resChan, errChane)
+	response.HeadersResponse(c, resChan, errChane)
 
 }

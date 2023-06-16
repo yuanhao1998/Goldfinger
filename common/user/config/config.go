@@ -2,7 +2,7 @@
 // @Author   : yaho
 // @Remark   :
 
-package config
+package userConfig
 
 import (
 	"path/filepath"

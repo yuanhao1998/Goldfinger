@@ -2,7 +2,7 @@
 // @Author   : yaho
 // @Remark   :
 
-package config
+package userConfig
 
 import (
 	"fmt"
@@ -15,12 +15,12 @@ import (
 
 func init() {
 	// 连接到 gRPC 服务器
-	target := fmt.Sprintf("%s:%s", globals.RunConf.RPCProject.Host, globals.RunConf.RPCProject.Port)
+	target := fmt.Sprintf("%s:%s", userGlobals.RunConf.RPCProject.Host, userGlobals.RunConf.RPCProject.Port)
 	conn, err := grpc.Dial(target, grpc.WithTransportCredentials(insecure.NewCredentials()))
 	if err != nil {
 		panic("连接RPC服务失败：" + err.Error())
 	}
 
-	globals.RPCClient = conn
+	userGlobals.RPCClient = conn
 
 }

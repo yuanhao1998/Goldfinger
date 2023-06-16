@@ -14,6 +14,7 @@ import (
 )
 
 func Register(server *grpc.Server) {
-	userPB.RegisterUserGroupServer(server, &handler.UserGroupServer{DataConn: db.StringCache{DbConn: globals.DBConn, CacheConn: globals.CacheConn}})
-	userPB.RegisterUserServer(server, &handler.UserServer{DataConn: db.StringCache{DbConn: globals.DBConn, CacheConn: globals.CacheConn}})
+	userPB.RegisterUserGroupServer(server, &handler.UserGroupServer{DataConn: db.StringCache{DbConn: userGlobals.DBConn, CacheConn: userGlobals.CacheConn}})
+	userPB.RegisterUserServer(server, &handler.UserServer{DataConn: db.StringCache{DbConn: userGlobals.DBConn, CacheConn: userGlobals.CacheConn}})
+	userPB.RegisterLoginServer(server, &handler.LoginServer{DataConn: db.StringCache{DbConn: userGlobals.DBConn, CacheConn: userGlobals.CacheConn}})
 }

@@ -10,8 +10,8 @@ import (
 
 	"google.golang.org/grpc"
 
-	userConfig "Goldfinger/common/user/config"
-	userGlobals "Goldfinger/common/user/globals"
+	"Goldfinger/common/user/config"
+	"Goldfinger/common/user/globals"
 	"Goldfinger/common/user/rpc/src"
 	"Goldfinger/common/user/rpc/src/model"
 	"Goldfinger/config"

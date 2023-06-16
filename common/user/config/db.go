@@ -2,7 +2,7 @@
 // @Author   : yaho
 // @Remark   :
 
-package config
+package userConfig
 
 import (
 	"fmt"
@@ -14,7 +14,7 @@ import (
 	"Goldfinger/common/user/globals"
 )
 
-func InitDB(conf *globals.Conf) *gorm.DB {
+func InitDB(conf *userGlobals.Conf) *gorm.DB {
 	connStr := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8mb4&parseTime=True&loc=Local",
 		conf.Mysql.UserName, conf.Mysql.PWD, conf.Mysql.Host, conf.Mysql.Port, conf.Mysql.DB)
 	db, err := gorm.Open(mysql.Open(connStr), &gorm.Config{})
@@ -32,7 +32,7 @@ func InitDB(conf *globals.Conf) *gorm.DB {
 	return db
 }
 
-func InitCache(conf *globals.Conf, db int) redis.UniversalClient {
+func InitCache(conf *userGlobals.Conf, db int) redis.UniversalClient {
 	conn := redis.NewUniversalClient(&redis.UniversalOptions{
 		Addrs: conf.Redis.Addr, Password: conf.Redis.PWD, DB: db, MasterName: conf.Redis.MasterName,
 		PoolSize: conf.Redis.PoolSize,

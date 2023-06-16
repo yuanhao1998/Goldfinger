@@ -2,7 +2,7 @@
 // @Author   : yaho
 // @Remark   :
 
-package globals
+package userGlobals
 
 import (
 	cache "github.com/redis/go-redis/v9"

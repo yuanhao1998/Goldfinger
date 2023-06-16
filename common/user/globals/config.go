@@ -2,7 +2,7 @@
 // @Author   : yaho
 // @Remark   :
 
-package globals
+package userGlobals
 
 var RunConf *Conf // 全局配置变量
 

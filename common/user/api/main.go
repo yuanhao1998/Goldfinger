@@ -19,6 +19,6 @@ func main() {
 
 	user.Route(app) // 注册url
 
-	addr := fmt.Sprintf("%s:%s", globals.RunConf.APIProject.Host, globals.RunConf.APIProject.Port)
+	addr := fmt.Sprintf("%s:%s", userGlobals.RunConf.APIProject.Host, userGlobals.RunConf.APIProject.Port)
 	panic(app.Run(addr))
 }

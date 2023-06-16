@@ -13,7 +13,7 @@ message loginReq{
 
 message loginResp{
   string showName = 1;  // 用户显示名称
-  int64 userId = 2; // 用户id
+  string userId = 2; // 用户id
   string token = 3; // jwt token
 }
 

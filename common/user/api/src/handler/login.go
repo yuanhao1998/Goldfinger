@@ -5,15 +5,16 @@
 package handler
 
 import (
-	"Goldfinger/common/user/api/src/model"
-	globals2 "Goldfinger/common/user/globals"
-	userPB "Goldfinger/common/user/rpc/proto"
-	"Goldfinger/globals"
 	"context"
-	"github.com/mojocn/base64Captcha"
 	"image/color"
 
+	"github.com/mojocn/base64Captcha"
+
+	"Goldfinger/common/user/api/src/model"
+	userGlobals "Goldfinger/common/user/globals"
+	"Goldfinger/common/user/rpc/proto"
 	"Goldfinger/errors"
+	"Goldfinger/globals"
 )
 
 var captchaStore = base64Captcha.DefaultMemStore // 验证码存储空间
@@ -42,12 +43,12 @@ func CaptchaHandler() (string, string, error) {
 
 func LoginHandler(ctx context.Context, query model.LoginQueryModel, rc chan<- any, ok chan<- error) {
 
-	if len(query.CaptchaId) == 0 || len(query.Captcha) == 0 || !captchaStore.Verify(query.CaptchaId, query.Captcha, true) {
-		ok <- errors.NewCaptchaError("验证码计算错误")
-		return
-	}
+	//if len(query.CaptchaId) == 0 || len(query.Captcha) == 0 || !captchaStore.Verify(query.CaptchaId, query.Captcha, true) {
+	//	ok <- errors.NewCaptchaError("验证码计算错误")
+	//	return
+	//}
 
-	token, err := userPB.NewLoginClient(globals2.RPCClient).Login(ctx, &userPB.LoginReq{LoginName: query.LoginName, Password: query.Password})
+	token, err := userPB.NewLoginClient(userGlobals.RPCClient).Login(ctx, &userPB.LoginReq{LoginName: query.LoginName, Password: query.Password})
 	if err != nil {
 		ok <- err
 		return
