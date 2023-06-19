@@ -25,6 +25,7 @@ func Route(app *gin.Engine) {
 	}
 
 	v1Login := v1User.Group("/login")
+	v1Login.Use() // 登录相关，不使用全局中间件鉴权
 	{
 		v1Login.GET("/captcha", view.CaptchaView)
 		v1Login.POST("/login", view.LoginView)

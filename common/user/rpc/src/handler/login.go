@@ -11,7 +11,7 @@ import (
 
 	"github.com/golang-jwt/jwt"
 
-	userGlobals "Goldfinger/common/user/globals"
+	"Goldfinger/common/user/globals"
 	"Goldfinger/common/user/rpc/proto"
 	"Goldfinger/common/user/rpc/src/model"
 	"Goldfinger/errors"
@@ -29,7 +29,7 @@ func GenerateJWTToken(user *model.UMUser) (string, error) { // 生成jwt token
 		"showName":  user.ShowName,
 		"loginName": user.LoginName,
 		"groupId":   user.GroupId,
-		"exp":       time.Now().Add(time.Hour * 24).Unix(),
+		"exp":       time.Now().Add(time.Hour * 12).Unix(),
 	})
 
 	tokenString, err := token.SignedString([]byte(userGlobals.RunConf.SecretKey))

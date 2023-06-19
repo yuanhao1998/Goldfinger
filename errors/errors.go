@@ -150,3 +150,16 @@ func (e LoginError) ErrorMap() map[string]any {
 func NewLoginError(msg string) *LoginError {
 	return &LoginError{BaseError{Msg: msg}}
 }
+
+// AuthError 权限错误
+type AuthError struct {
+	BaseError
+}
+
+func (e AuthError) ErrorMap() map[string]any {
+	return e.GenerateErrorMap("权限错误", Auth)
+}
+
+func NewAuthError(msg string) *AuthError {
+	return &AuthError{BaseError{Msg: msg}}
+}

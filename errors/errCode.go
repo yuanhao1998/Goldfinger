@@ -15,4 +15,5 @@ const (
 	PWDEncode          // 密码加密错误
 	Captcha            // 验证码错误
 	Login              // 登陆错误
+	Auth               // 权限错误
 )
