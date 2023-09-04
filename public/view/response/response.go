@@ -16,13 +16,13 @@ import (
 )
 
 // DefaultResponse 默认响应：将chan返回的数据转换为map输出
-func DefaultResponse(c *gin.Context, resChan chan any, errChane chan error) {
+func DefaultResponse(c *gin.Context, resChan chan any, errChan chan error) {
 	ctx, cancel := context.WithTimeout(c, config.APITimeOut)
 	defer cancel()
 
 	for {
 		select {
-		case err := <-errChane:
+		case err := <-errChan:
 			c.JSON(http.StatusInternalServerError, errors.NewParamsError(err.Error()).ErrorMap())
 			return
 		case res := <-resChan:
@@ -36,13 +36,13 @@ func DefaultResponse(c *gin.Context, resChan chan any, errChane chan error) {
 }
 
 // HeadersResponse 请求头响应：将chan返回的数据添加到响应头
-func HeadersResponse(c *gin.Context, resChan chan any, errChane chan error) {
+func HeadersResponse(c *gin.Context, resChan chan any, errChan chan error) {
 	ctx, cancel := context.WithTimeout(c, config.APITimeOut)
 	defer cancel()
 
 	for {
 		select {
-		case err := <-errChane:
+		case err := <-errChan:
 			c.JSON(http.StatusInternalServerError, errors.NewParamsError(err.Error()).ErrorMap())
 			return
 		case res := <-resChan:

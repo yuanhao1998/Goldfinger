@@ -27,7 +27,7 @@ type ParseUser struct { // 用于解析token的用户模型、需要增加jwt.St
 // CheckJWTAuth jwt鉴权中间件，判断请求token是否过期、刷新临近过期token的时间
 func CheckJWTAuth(c *gin.Context) {
 
-	if strings.HasPrefix(c.Request.URL.Path, "/api/v1/user/login") { // 对登录相关接口添加例外
+	if strings.HasPrefix(c.Request.URL.Path, "/api/v1/login") { // 对登录相关接口添加例外
 		c.Next()
 		return
 	}

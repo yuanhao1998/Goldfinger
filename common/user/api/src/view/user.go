@@ -6,6 +6,7 @@ package view
 
 import (
 	"net/http"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 
@@ -27,7 +28,20 @@ func CreateUserView(c *gin.Context) {
 		c.JSON(http.StatusOK, errors.NewParamsError("两次密码输入不一致").ErrorMap())
 	}
 
-	var resChan, errChane = make(chan any), make(chan error)
-	go handler.CreateUserHandler(c, query, resChan, errChane)
-	response.DefaultResponse(c, resChan, errChane)
+	var resChan, errChan = make(chan any), make(chan error)
+	go handler.CreateUserHandler(c, query, resChan, errChan)
+	response.DefaultResponse(c, resChan, errChan)
+}
+
+func RetrieveUserView(c *gin.Context) {
+
+	id := c.Param("id")
+	intId, err := strconv.ParseInt(id, 10, 64)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, errors.NewParamsError("id无法转为int类型").ErrorMap())
+	}
+
+	var resChan, errChan = make(chan any), make(chan error)
+	go handler.RetrieveUserHandler(c, intId, resChan, errChan)
+	response.DefaultResponse(c, resChan, errChan)
 }

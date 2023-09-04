@@ -22,6 +22,7 @@ func Route(app *gin.Engine) {
 		v1User.DELETE("/userGroup/:id", view.DeleteGroupView)
 
 		v1User.POST("/user", view.CreateUserView)
+		v1User.GET("/user/:id", view.RetrieveUserView)
 	}
 
 	v1Login := v1User.Group("/login")

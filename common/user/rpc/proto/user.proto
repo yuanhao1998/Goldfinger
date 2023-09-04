@@ -7,20 +7,43 @@ package user;
 
 // 创建用户传入参数
 message CreateUserReq{
-  string loginName = 1;       // 登陆名称
-  string showName = 2;        // 用户名称
-  string password = 3;        // 密码
-  string mobile = 4;          // 手机号
-  string  desc = 5;           // 备注
-  int64 groupId = 6;          // 所属用户组
+  string LoginName = 1;  // 登陆名称
+  string ShowName = 2;   // 用户名称
+  string Password = 3;   // 密码
+  string Mobile = 4;     // 手机号
+  string  Desc = 5;      // 备注
+  int64 GroupId = 6;     // 所属用户组
 }
 
 // 创建用户返回参数
 message CreateUserResp{
-  int64 id = 1;  // 用户ID
+  int64 Id = 1;  // 用户ID
 }
 
-// 登陆服务
+// 查询用户详情传入参数
+message RetrieveUserReq{
+  int64 Id = 1;
+}
+
+// 查询用户详情返回参数
+message RetrieveUserResp{
+  int64 Id = 1;            // 用户ID
+  string LoginName = 2;    // 登陆名称
+  string ShowName = 3;     // 用户名称
+  string Password = 4;     // 密码
+  string Mobile = 5;       // 手机号
+  string Desc = 6;         // 备注
+  int64 GroupId = 7;       // 所属用户组
+  int64 CreateUser = 8;    // 创建用户ID
+  int64 UpdateUser = 9;    // 更新用户ID
+  int64 CreateGroup = 10;  // 创建用户组ID
+  int64 UpdateGroup = 11;  // 更新用户组ID
+  int64 CreateAt = 12;     // 创建时间
+  int64 UpdateAt = 13;     // 更新时间
+}
+
+// 用户服务
 service User{
   rpc create(CreateUserReq) returns(CreateUserResp);  // 创建用户
+  rpc retrieve(RetrieveUserReq) returns(RetrieveUserResp); // 查询用户详情
 }

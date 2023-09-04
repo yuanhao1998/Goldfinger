@@ -43,10 +43,10 @@ func CaptchaHandler() (string, string, error) {
 
 func LoginHandler(ctx context.Context, query model.LoginQueryModel, rc chan<- any, ok chan<- error) {
 
-	//if len(query.CaptchaId) == 0 || len(query.Captcha) == 0 || !captchaStore.Verify(query.CaptchaId, query.Captcha, true) {
-	//	ok <- errors.NewCaptchaError("验证码计算错误")
-	//	return
-	//}
+	if len(query.CaptchaId) == 0 || len(query.Captcha) == 0 || !captchaStore.Verify(query.CaptchaId, query.Captcha, true) {
+		ok <- errors.NewCaptchaError("验证码计算错误")
+		return
+	}
 
 	token, err := userPB.NewLoginClient(userGlobals.RPCClient).Login(ctx, &userPB.LoginReq{LoginName: query.LoginName, Password: query.Password})
 	if err != nil {

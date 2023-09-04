@@ -13,25 +13,32 @@ import (
 )
 
 func CreateUserGroupHandler(ctx context.Context, query model.CreateUserGroupQueryModel, rc chan<- any, ok chan<- error) {
+
 	groupId, err := userPB.NewUserGroupClient(userGlobals.RPCClient).Create(ctx,
 		&userPB.CreateUserGroupReq{Name: query.Name, ParentId: query.ParentId})
+
 	if err != nil {
 		ok <- err
 		return
 	}
+
 	rc <- groupId
 }
 
 func RetrieveUserGroupHandler(ctx context.Context, userGroupId int64, rc chan<- any, ok chan<- error) {
+
 	retrieve, err := userPB.NewUserGroupClient(userGlobals.RPCClient).Retrieve(ctx, &userPB.RetrieveUserGroupReq{Id: userGroupId})
+
 	if err != nil {
 		ok <- err
 		return
 	}
+
 	rc <- retrieve
 }
 
 func UpdateUserGroupHandler(ctx context.Context, query model.UpdateUserGroupQueryModel, rc chan<- any, ok chan<- error) {
+
 	userId, err := userPB.NewUserGroupClient(userGlobals.RPCClient).Update(
 		ctx,
 		&userPB.UpdateUserGroupReq{
@@ -42,18 +49,23 @@ func UpdateUserGroupHandler(ctx context.Context, query model.UpdateUserGroupQuer
 			},
 		},
 	)
+
 	if err != nil {
 		ok <- err
 		return
 	}
+
 	rc <- userId
 }
 
 func DeleteUserGroupHandler(ctx context.Context, userGroupId int64, rc chan<- any, ok chan<- error) {
+
 	userId, err := userPB.NewUserGroupClient(userGlobals.RPCClient).Delete(ctx, &userPB.DeleteUserGroupReq{Id: userGroupId})
+
 	if err != nil {
 		ok <- err
 		return
 	}
+
 	rc <- userId
 }

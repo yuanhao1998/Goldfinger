@@ -25,9 +25,9 @@ func CreateUserGroupView(c *gin.Context) {
 		return
 	}
 
-	var resChan, errChane = make(chan any), make(chan error)
-	go handler.CreateUserGroupHandler(c, query, resChan, errChane)
-	response.DefaultResponse(c, resChan, errChane)
+	var resChan, errChan = make(chan any), make(chan error)
+	go handler.CreateUserGroupHandler(c, query, resChan, errChan)
+	response.DefaultResponse(c, resChan, errChan)
 
 }
 
@@ -42,9 +42,9 @@ func RetrieveGroupView(c *gin.Context) {
 		return
 	}
 
-	var resChan, errChane = make(chan any), make(chan error)
-	go handler.RetrieveUserGroupHandler(c, userGroupId, resChan, errChane)
-	response.DefaultResponse(c, resChan, errChane)
+	var resChan, errChan = make(chan any), make(chan error)
+	go handler.RetrieveUserGroupHandler(c, userGroupId, resChan, errChan)
+	response.DefaultResponse(c, resChan, errChan)
 }
 
 func UpdateGroupView(c *gin.Context) {
@@ -58,9 +58,9 @@ func UpdateGroupView(c *gin.Context) {
 		return
 	}
 
-	var resChan, errChane = make(chan any), make(chan error)
-	go handler.UpdateUserGroupHandler(c, query, resChan, errChane)
-	response.DefaultResponse(c, resChan, errChane)
+	var resChan, errChan = make(chan any), make(chan error)
+	go handler.UpdateUserGroupHandler(c, query, resChan, errChan)
+	response.DefaultResponse(c, resChan, errChan)
 
 }
 
@@ -74,7 +74,7 @@ func DeleteGroupView(c *gin.Context) {
 		return
 	}
 
-	var resChan, errChane = make(chan any), make(chan error)
-	go handler.DeleteUserGroupHandler(c, userGroupId, resChan, errChane)
-	response.DefaultResponse(c, resChan, errChane)
+	var resChan, errChan = make(chan any), make(chan error)
+	go handler.DeleteUserGroupHandler(c, userGroupId, resChan, errChan)
+	response.DefaultResponse(c, resChan, errChan)
 }
