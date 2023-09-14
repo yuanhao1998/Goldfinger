@@ -1,18 +1,12 @@
-// @Create   : 2023/3/16 20:54
-// @Author   : yaho
-// @Remark   : 用户模块路由
-
-package user
+package route
 
 import (
-	"github.com/gin-gonic/gin"
-
 	"Goldfinger/common/user/api/src/view"
+	"github.com/gin-gonic/gin"
 )
 
-func Route(app *gin.Engine) {
-
-	v1 := app.Group("/api/v1")
+func userV1(app *gin.RouterGroup) {
+	v1 := app.Group("/v1")
 
 	v1User := v1.Group("/user")
 	{
@@ -24,12 +18,4 @@ func Route(app *gin.Engine) {
 		v1User.POST("/user", view.CreateUserView)
 		v1User.GET("/user/:id", view.RetrieveUserView)
 	}
-
-	v1Login := v1User.Group("/login")
-	v1Login.Use() // 登录相关，不使用全局中间件鉴权
-	{
-		v1Login.GET("/captcha", view.CaptchaView)
-		v1Login.POST("/login", view.LoginView)
-	}
-
 }

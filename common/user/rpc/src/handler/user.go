@@ -17,6 +17,11 @@ type UserServer struct {
 	DataConn db.StringCache
 }
 
+func (u UserServer) Retrieve(ctx context.Context, req *userPB.RetrieveUserReq) (*userPB.RetrieveUserResp, error) {
+	//TODO implement me
+	panic("implement me")
+}
+
 func (u UserServer) Create(ctx context.Context, req *userPB.CreateUserReq) (*userPB.CreateUserResp, error) {
 	userGroup := model.UMUser{LoginName: req.LoginName, ShowName: req.ShowName, Password: req.Password, Mobile: req.Mobile, Desc: req.Desc, GroupId: req.GroupId}
 	id, err := u.DataConn.CreateString(ctx, &userGroup, userCacheKey)
