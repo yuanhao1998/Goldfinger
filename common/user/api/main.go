@@ -10,7 +10,7 @@ import (
 	"github.com/gin-gonic/gin"
 
 	"Goldfinger/common/user/api/src/route"
-	_ "Goldfinger/common/user/config" // 初始化配置文件，不要删除
+	_ "Goldfinger/common/user/config" // 初始化配置，不要删除
 	"Goldfinger/common/user/globals"
 	"Goldfinger/public/middleware"
 )

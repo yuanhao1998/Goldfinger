@@ -5,6 +5,7 @@
 package userConfig
 
 import (
+	"Goldfinger/common/user/rpc/src/model"
 	"fmt"
 
 	"github.com/redis/go-redis/v9"
@@ -14,9 +15,10 @@ import (
 	"Goldfinger/common/user/globals"
 )
 
-func InitDB(conf *userGlobals.Conf) *gorm.DB {
+func InitDB() *gorm.DB {
 	connStr := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8mb4&parseTime=True&loc=Local",
-		conf.Mysql.UserName, conf.Mysql.PWD, conf.Mysql.Host, conf.Mysql.Port, conf.Mysql.DB)
+		userGlobals.RunConf.Mysql.UserName, userGlobals.RunConf.Mysql.PWD,
+		userGlobals.RunConf.Mysql.Host, userGlobals.RunConf.Mysql.Port, userGlobals.RunConf.Mysql.DB)
 	db, err := gorm.Open(mysql.Open(connStr), &gorm.Config{})
 	if err != nil {
 		panic("连接数据库失败：" + err.Error())
@@ -26,17 +28,25 @@ func InitDB(conf *userGlobals.Conf) *gorm.DB {
 	if err != nil {
 		panic("获取数据库sql连接失败：" + err.Error())
 	}
-	sqlConn.SetMaxIdleConns(conf.Mysql.MaxConn)
-	sqlConn.SetMaxOpenConns(conf.Mysql.MaxOpen)
+	sqlConn.SetMaxIdleConns(userGlobals.RunConf.Mysql.MaxConn)
+	sqlConn.SetMaxOpenConns(userGlobals.RunConf.Mysql.MaxOpen)
+
+	model.CreateTable(db) // 自动建表
 
 	return db
 }
 
-func InitCache(conf *userGlobals.Conf, db int) redis.UniversalClient {
+func InitCache() redis.UniversalClient {
 	conn := redis.NewUniversalClient(&redis.UniversalOptions{
-		Addrs: conf.Redis.Addr, Password: conf.Redis.PWD, DB: db, MasterName: conf.Redis.MasterName,
-		PoolSize: conf.Redis.PoolSize,
+		Addrs: userGlobals.RunConf.Redis.Addr, Password: userGlobals.RunConf.Redis.PWD,
+		DB: userGlobals.RunConf.Redis.CacheDB, MasterName: userGlobals.RunConf.Redis.MasterName,
+		PoolSize: userGlobals.RunConf.Redis.PoolSize,
 	})
 
 	return conn
+}
+
+func init() {
+	userGlobals.DBConn = InitDB()       // 全局数据库连接
+	userGlobals.CacheConn = InitCache() // 全局缓存连接
 }

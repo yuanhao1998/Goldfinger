@@ -21,6 +21,7 @@ func init() {
 	}
 
 	v, err := config.InitConf(path)
+	println(v.GetInt("Mysql.maxOpen"))
 	if err != nil {
 		panic("读取配置文件失败：" + err.Error())
 	}

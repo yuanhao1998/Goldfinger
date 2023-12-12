@@ -10,25 +10,19 @@ import (
 
 	"google.golang.org/grpc"
 
-	"Goldfinger/common/user/config"
+	_ "Goldfinger/common/user/config" // 初始化配置，不要删除
 	"Goldfinger/common/user/globals"
 	"Goldfinger/common/user/rpc/src"
-	"Goldfinger/common/user/rpc/src/model"
 	"Goldfinger/config"
 	"Goldfinger/globals"
 )
 
 func main() {
 
+	// 日志初始化
 	globals.Logger = config.InitLog(userGlobals.RunConf.RPCLog.Level, userGlobals.RunConf.RPCLog.Path)
 
-	dbConn := userConfig.InitDB(userGlobals.RunConf)
-	model.CreateTable(dbConn)   // 自动建表
-	userGlobals.DBConn = dbConn // 全局数据库连接
-
-	cacheConn := userConfig.InitCache(userGlobals.RunConf, userGlobals.RunConf.Redis.CacheDB)
-	userGlobals.CacheConn = cacheConn // 全局缓存连接
-
+	// grpc注册
 	grpcServer := grpc.NewServer()
 	src.Register(grpcServer)
 

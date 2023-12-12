@@ -56,7 +56,7 @@ func (u *UserGroupServer) Update(ctx context.Context, req *userPB.UpdateUserGrou
 
 func (u *UserGroupServer) Delete(ctx context.Context, req *userPB.DeleteUserGroupReq) (*userPB.DeleteUserGroupResp, error) {
 
-	id, err := u.DataConn.DeleteString(ctx, userGroupCacheKey, model.UMUserGroup{Id: req.Id})
+	id, err := u.DataConn.DeleteString(ctx, model.UMUserGroup{Id: req.Id}, userGroupCacheKey)
 	if err != nil {
 		return nil, err
 	}

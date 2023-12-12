@@ -8,23 +8,23 @@ import "public/proto/base.proto";
 package user;
 
 // 创建用户组传入参数
-message createUserGroupReq {
+message CreateUserGroupReq {
   string Name = 1;  // 用户组名称
   int64 ParentId = 2;  // 用户组父级ID，为0代表顶级组
 }
 
 // 创建用户组返回参数
-message createUserGroupResp {
+message CreateUserGroupResp {
   int64 Id = 1;  // 新创建的用户组ID
 }
 
 // 查询用户组详情传入参数
-message retrieveUserGroupReq {
+message RetrieveUserGroupReq {
   int64 Id = 1;  // 用户组ID
 }
 
 // 查询用户组详情返回参数
-message retrieveUserGroupResp {
+message RetrieveUserGroupResp {
   int64 Id = 1;           // 用户组ID
   string Name = 2;        // 用户组名称
   int64 ParentId = 3;     // 用户组父级ID
@@ -39,27 +39,27 @@ message retrieveUserGroupResp {
 }
 
 // 更新用户组传入参数
-message updateUserGroupReq {
-  retrieveUserGroupResp userGroup = 1;
+message UpdateUserGroupReq {
+  RetrieveUserGroupResp userGroup = 1;
 }
 
 // 更新用户组返回参数
-message updateUserGroupResp {
+message UpdateUserGroupResp {
   int64 Id = 1;  // 用户组ID
 }
 
 // 删除用户组传入参数
-message deleteUserGroupReq {
+message DeleteUserGroupReq {
   int64 Id = 1;  // 用户组ID
 }
 
 // 删除用户组返回参数
-message deleteUserGroupResp {
+message DeleteUserGroupResp {
   int64 Id = 1;  // 用户组ID
 }
 
 // 查询用户组参数
-message queryUserGroupReq {
+message QueryUserGroupReq {
   repeated int64 Ids = 1;            // 多个用户组ID
   string Name = 2;                   // 用户组名称
   repeated int64 ParentId = 3;       // 父组ID
@@ -73,15 +73,15 @@ message queryUserGroupReq {
 }
 
 // 查询用户组返回参数
-message queryUserGroupResp {
-  repeated retrieveUserGroupResp UserGroup = 1;  // 多条用户详细信息
+message QueryUserGroupResp {
+  repeated RetrieveUserGroupResp UserGroup = 1;  // 多条用户详细信息
 }
 
 // 用户组服务
 service UserGroup {
-  rpc create(createUserGroupReq) returns(createUserGroupResp);        // 创建用户组
-  rpc update(updateUserGroupReq) returns(updateUserGroupResp);        // 更新用户组
-  rpc delete(deleteUserGroupReq) returns(deleteUserGroupResp);        // 删除用户组
-  rpc query(queryUserGroupReq) returns(queryUserGroupResp);           // 查询用户组
-  rpc retrieve(retrieveUserGroupReq) returns(retrieveUserGroupResp);  // 查询用户组详情
+  rpc create(CreateUserGroupReq) returns(CreateUserGroupResp);        // 创建用户组
+  rpc update(UpdateUserGroupReq) returns(UpdateUserGroupResp);        // 更新用户组
+  rpc delete(DeleteUserGroupReq) returns(DeleteUserGroupResp);        // 删除用户组
+  rpc query(QueryUserGroupReq) returns(QueryUserGroupResp);           // 查询用户组
+  rpc retrieve(RetrieveUserGroupReq) returns(RetrieveUserGroupResp);  // 查询用户组详情
 }

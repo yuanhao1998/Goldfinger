@@ -5,16 +5,16 @@
 package db
 
 import (
-	"Goldfinger/errors"
 	"context"
 	"encoding/json"
 	"fmt"
-	"gorm.io/gorm"
 	"time"
 
 	"github.com/redis/go-redis/v9"
+	"gorm.io/gorm"
 
 	"Goldfinger/config"
+	"Goldfinger/errors"
 	"Goldfinger/globals"
 )
 
@@ -164,7 +164,7 @@ func (c *StringCache) RetrieveString(ctx context.Context, st any, cacheKey strin
 // ctx 上下文
 // cacheKey 缓存键
 // id 根据此ID删除数据
-func (c *StringCache) DeleteString(ctx context.Context, cacheKey string, st any) (int64, error) {
+func (c *StringCache) DeleteString(ctx context.Context, st any, cacheKey string) (int64, error) {
 	id := findRealData(st).FieldByName("Id")
 	if !id.IsValid() { // 没有Id字段，不写入cache
 		return 0, errors.NewParamsError("无法从数据中获取Id")

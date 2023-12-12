@@ -4,7 +4,7 @@
 
 package userGlobals
 
-var RunConf *Conf // 全局配置变量
+var RunConf Conf // 全局配置变量
 
 // 项目配置
 type rpcProject struct {

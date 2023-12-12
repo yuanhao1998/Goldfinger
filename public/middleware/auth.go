@@ -5,14 +5,15 @@
 package middleware
 
 import (
+	"net/http"
+	"time"
+
+	"github.com/gin-gonic/gin"
+	"github.com/golang-jwt/jwt"
+
 	"Goldfinger/common/user/globals"
 	"Goldfinger/errors"
 	"Goldfinger/globals"
-	"github.com/gin-gonic/gin"
-	"github.com/golang-jwt/jwt"
-	"net/http"
-	"strings"
-	"time"
 )
 
 type ParseUser struct { // 用于解析token的用户模型、需要增加jwt.StandardClaims字段
@@ -26,11 +27,6 @@ type ParseUser struct { // 用于解析token的用户模型、需要增加jwt.St
 
 // CheckJWTAuth jwt鉴权中间件，判断请求token是否过期、刷新临近过期token的时间
 func CheckJWTAuth(c *gin.Context) {
-
-	if strings.HasPrefix(c.Request.URL.Path, "/api/v1/login") { // 对登录相关接口添加例外
-		c.Next()
-		return
-	}
 
 	headerToken := c.Request.Header.Get("Token")
 	if headerToken == "" {
@@ -68,7 +64,7 @@ func CheckJWTAuth(c *gin.Context) {
 		if newToken, err := token.SignedString([]byte(userGlobals.RunConf.SecretKey)); err != nil {
 			globals.Logger.Error("token鉴权时发现有效期小于6小时，尝试刷新token时生成新的token失败：" + err.Error())
 		} else {
-			c.Header("Token", newToken)
+			c.Header("NewToken", newToken)
 		}
 	}
 

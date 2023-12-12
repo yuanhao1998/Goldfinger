@@ -20,6 +20,26 @@ message CreateUserResp{
   int64 Id = 1;  // 用户ID
 }
 
+// 删除用户传入参数
+message DeleteUserReq {
+  int64 Id = 1;  // 用户ID
+}
+
+// 删除用户返回参数
+message DeleteUserResp {
+  int64 Id = 1;  // 用户ID
+}
+
+// 更新用户传入参数
+message UpdateUserReq {
+  RetrieveUserResp user = 1;
+}
+
+// 更新用户组返回参数
+message UpdateUserResp {
+  int64 Id = 1;  // 用户组ID
+}
+
 // 查询用户详情传入参数
 message RetrieveUserReq{
   int64 Id = 1;
@@ -46,4 +66,6 @@ message RetrieveUserResp{
 service User{
   rpc create(CreateUserReq) returns(CreateUserResp);  // 创建用户
   rpc retrieve(RetrieveUserReq) returns(RetrieveUserResp); // 查询用户详情
+  rpc delete(DeleteUserReq) returns(DeleteUserResp);  // 删除用户
+  rpc update(UpdateUserReq) returns(UpdateUserResp); // 更新用户
 }
